@@ -1,0 +1,73 @@
+In Selenium automation, XPath Axes are used to find "complex" web elements that cannot be found by standard attributes like ID or Name. They allow you to navigate through the DOM tree by defining the relationship between the current node (the context node) and the target node.
+
+Think of it as navigating a family tree: you find a known person (the anchor element) and then move to their parent, sibling, or child.
+
+The Most Common XPath Axes
+Here are the axes you will most likely be asked about in an interview, along with their syntax.
+
+1. Following-Sibling
+Selects all nodes that appear after the current node at the same level (siblings).
+
+Use Case: Finding an input box located next to a label.
+
+Syntax: //label[@id='user']/following-sibling::input
+
+2. Preceding-Sibling
+Selects all nodes that appear before the current node at the same level.
+
+Use Case: Finding a checkbox that appears before a specific text.
+
+Syntax: //td[text()='Active']/preceding-sibling::td/input
+
+3. Parent
+Selects the immediate parent of the current node.
+
+Use Case: When a child element is unique, but you need to click the container (parent) div.
+
+Syntax: //input[@id='email']/parent::div
+
+4. Ancestor
+Selects all nodes above the current node (parent, grandparent, etc.).
+
+Use Case: Finding a top-level table or form that wraps a specific small element.
+
+Syntax: //span[text()='Order #123']/ancestor::table
+
+5. Descendant
+Selects all children, grandchildren, etc., of the current node.
+
+Use Case: Finding any link inside a specific navigation bar.
+
+Syntax: //div[@id='navbar']/descendant::a
+
+Comparison Table for Quick Recall
+Axis Name	Direction	Relationship
+parent	Up	Immediate level above.
+ancestor	Up	All levels above (parent, grandparent).
+child	Down	Immediate level below.
+descendant	Down	All levels below (children, grandchildren).
+following-sibling	Sideways	Nodes after the current node on the same level.
+preceding-sibling	Sideways	Nodes before the current node on the same level.
+Interview "Gotcha": XPath vs. CSS Selectors
+Interviewers often ask: "Can CSS Selectors do what XPath Axes do?"
+
+The Answer: No. CSS Selectors can only move down or sideways (forward). CSS cannot move "up" the DOM (no parent/ancestor) or "backward" (no preceding-sibling). This is the primary reason we use XPath Axes for dynamic tables.
+
+Would you like me to give you a sample HTML snippet and have you try writing an XPath Axis for it?
+
+
+@Test
+public void verifySiblingText() {
+    // Locate all 'Enabled' status cells
+    List<WebElement> rows = driver.findElements(By.xpath("//td[text()='Enabled']"));
+
+    for (WebElement it : rows) {
+        // Moving sideways (backward) to get the name in the previous column
+        String name = it.findElement(By.xpath("./preceding-sibling::td")).getText();
+        
+        System.out.println("User " + name + " is currently Enabled.");
+        
+        // TestNG Assertion
+        Assert.assertNotNull(name, "Username should not be empty!");
+    }
+}

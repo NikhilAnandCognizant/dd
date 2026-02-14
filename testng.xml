@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Final Regression">
+    <test name="LoginModule">
+        <classes>
+
+            <class name="com.tests.EditProfileTest" />
+        </classes>
+    </test>
+</suite>

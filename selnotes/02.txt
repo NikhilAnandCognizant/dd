@@ -1,0 +1,92 @@
+To clear your interview, you need to know that Selenium uses the `By` class to provide **8 basic locators**, plus the advanced **Relative Locators** introduced in Selenium 4.
+
+Here is the complete breakdown, organized from "Most Preferred" to "Last Resort."
+
+---
+
+## 1. The Standard 8 Locators
+
+### 1. ID
+
+* **Best Practice:** Always the #1 choice. It is the fastest and most unique.
+* **Syntax:** `driver.findElement(By.id("login-btn"));`
+
+### 2. Name
+
+* **Best Practice:** Used mostly for form elements (inputs, radio buttons).
+* **Syntax:** `driver.findElement(By.name("username"));`
+
+### 3. Class Name
+
+* **Best Practice:** Use this if the element has a unique class, but beware: many elements often share the same class.
+* **Syntax:** `driver.findElement(By.className("menu-item"));`
+
+### 4. Tag Name
+
+* **Best Practice:** Rarely used to find a single element; usually used with `findElements` to count links (`<a>`) or rows (`<tr>`).
+* **Syntax:** `driver.findElements(By.tagName("a"));`
+
+### 5. Link Text
+
+* **Best Practice:** Used for `<a>` tags (hyperlinks) with exact matching text.
+* **Syntax:** `driver.findElement(By.linkText("Forgot Password?"));`
+
+### 6. Partial Link Text
+
+* **Best Practice:** Useful if the link text is very long or contains dynamic parts.
+* **Syntax:** `driver.findElement(By.partialLinkText("Forgot"));`
+
+### 7. CSS Selector
+
+* **Best Practice:** Preferred by many developers for being faster than XPath and having cleaner syntax.
+* **Syntax:** `driver.findElement(By.cssSelector("input#user[type='text']"));`
+
+### 8. XPath
+
+* **Best Practice:** The most powerful. It can navigate up, down, and sideways (Axes) and find elements by text.
+* **Syntax:** `driver.findElement(By.xpath("//button[contains(text(),'Submit')]"));`
+
+---
+
+## 2. Selenium 4: Relative Locators (Friendly Locators)
+
+In interviews, mentioning these will make you stand out. These allow you to find elements based on their **visual position** on the screen.
+
+* **`above()`**: Element located above the specified element.
+* **`below()`**: Element located below.
+* **`toLeftOf()`**: Element to the left.
+* **`toRightOf()`**: Element to the right.
+* **`near()`**: Element within approx. 50 pixels.
+
+**Syntax Example:**
+
+```java
+WebElement emailField = driver.findElement(By.id("email"));
+// Find the password field which is below email
+WebElement passwordField = driver.findElement(RelativeLocator.with(By.tagName("input")).below(emailField));
+
+```
+
+---
+
+## 3. Comparison Table (The "Interview Cheat Sheet")
+
+| Locator | Speed | Reliability | Why use it? |
+| --- | --- | --- | --- |
+| **ID** | Fastest | High | Unique and stable. |
+| **CSS** | Fast | High | Great for complex styling rules; works in all browsers. |
+| **XPath** | Slower | High | Can move backward in DOM; can search by Text. |
+| **LinkText** | Fast | Medium | Only works for `<a>` tags. |
+
+---
+
+### 🔥 Critical Interview Question: "What is the order of priority for locators?"
+
+**Your Answer:**
+
+1. **ID** (Unique and fastest)
+2. **Name** (Common in forms)
+3. **CSS Selector** (Fast and readable)
+4. **XPath** (Only when CSS can't do the job, like moving up to a parent or searching by text).
+
+**Would you like me to explain the difference between Absolute and Relative XPath? (This is a very common follow-up question.)**

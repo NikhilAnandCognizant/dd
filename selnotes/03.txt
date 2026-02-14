@@ -1,0 +1,85 @@
+In Selenium, the CSS class selector is one of the fastest and most reliable ways to find elements. In CSS syntax, a class is always represented by a **dot (`.`)**.
+
+---
+
+## 1. The Basic Syntax
+
+If your HTML looks like this:
+`<input class="login-field">`
+
+Your Selenium code will look like this:
+
+```java
+// Logic: find the element with the class "login-field"
+driver.findElement(By.cssSelector(".login-field"));
+
+```
+
+---
+
+## 2. Advanced Class Selectors
+
+Sometimes a simple class isn't enough because multiple elements might share it. Here is how to be more specific:
+
+### A. Tag + Class
+
+If you only want an `input` that has that class (ignoring `div`s or `button`s with the same class):
+
+```java
+driver.findElement(By.cssSelector("input.login-field"));
+
+```
+
+### B. Multiple Classes (Chaining)
+
+If an element has multiple classes like `<div class="btn primary active">`, you chain them together with dots and **no spaces**:
+
+```java
+// This looks for an element that has ALL three classes
+driver.findElement(By.cssSelector(".btn.primary.active"));
+
+```
+
+### C. Parent-Child Navigation
+
+If the input is inside a form and you want to navigate down:
+
+```java
+// Logic: find a form with class 'main-form', then any input inside it
+driver.findElement(By.cssSelector(".main-form input"));
+
+```
+
+---
+
+## 3. Dealing with "Space-Separated" Classes
+
+A common mistake is trying to use `By.className` with a string that contains spaces.
+
+* **Incorrect:** `driver.findElement(By.className("btn primary"));` → **Throws Error.**
+* **Correct:** `driver.findElement(By.cssSelector(".btn.primary"));` → **Works!**
+
+---
+
+## 4. Why use CSS over XPath?
+
+| Feature | CSS Selector | XPath |
+| --- | --- | --- |
+| **Speed** | Faster (native to browsers) | Slightly slower |
+| **Syntax** | Clean and short | Verbose and complex |
+| **Compatibility** | Works in all browsers | Works in all browsers |
+| **Limitation** | Cannot search by text | Can search by text |
+
+---
+
+## Summary Cheat Sheet
+
+| Requirement | CSS Selector Syntax |
+| --- | --- |
+| Single Class | `.className` |
+| Multiple Classes | `.class1.class2` |
+| Tag and Class | `input.className` |
+| Child Element | `.parentClass .childClass` |
+| Direct Child | `.parentClass > .childClass` |
+
+**Would you like to know how to select an element based on a "partial" class name (e.g., a class that starts with "btn-")?**
